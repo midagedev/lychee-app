@@ -1,0 +1,12 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: lychee-login-ip-whitelist
+  namespace: lychee
+spec:
+  ipAllowList:
+    sourceRange:
+      - 20.41.115.141/32  # Your IP
+      - 38.54.40.92/32    # VPS server itself
+    ipStrategy:
+      depth: 0

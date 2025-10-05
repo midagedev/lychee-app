@@ -1,13 +1,14 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: lychee
+  name: lychee-login
   namespace: lychee
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.priority: "10"
+    traefik.ingress.kubernetes.io/router.priority: "100"
+    traefik.ingress.kubernetes.io/router.middlewares: lychee-lychee-login-ip-whitelist@kubernetescrd
 spec:
   ingressClassName: traefik
   tls:
@@ -18,8 +19,8 @@ spec:
   - host: gallery.midagedev.com
     http:
       paths:
-      - path: /
-        pathType: Prefix
+      - path: /api/v2/Auth::login
+        pathType: Exact
         backend:
           service:
             name: lychee
